@@ -84,20 +84,49 @@ function progressTrackHtml() {
   return `<div class="progress-track">${segs}</div>`;
 }
 
+// <video src="..."> only understands direct links to a media file (.mp4,
+// .webm, etc). A youtube.com/vimeo.com page URL is not a media file, so the
+// tag fails silently. Detect those and switch to an <iframe> embed instead.
+function embedUrlFor(url) {
+  let m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]+)/);
+  if (m) return `https://www.youtube.com/embed/${m[1]}?autoplay=1`;
+  m = url.match(/vimeo\.com\/(\d+)/);
+  if (m) return `https://player.vimeo.com/video/${m[1]}?autoplay=1`;
+  return null;
+}
+
 function monitorHtml(option) {
   if (!option) return '';
   if (option.type === 'video') {
+    const embed = embedUrlFor(option.content);
+    if (embed) {
+      return `
+        <div class="monitor">
+          <div class="monitor-label">Video response</div>
+          <iframe src="${escapeHtml(embed)}" style="width:100%; aspect-ratio:16/9; border:0; border-radius:6px;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>`;
+    }
     return `
       <div class="monitor">
         <div class="monitor-label">Video response</div>
-        <video src="${escapeHtml(option.content)}" controls autoplay></video>
+        <video src="${escapeHtml(option.content)}" controls autoplay muted playsinline
+          onerror="this.closest('.monitor').innerHTML = '<div class=\\'monitor-label\\'>Video response</div><div class=\\'monitor-text\\'>Couldn\\'t load this video. Check the URL is a direct link to a media file (.mp4) or a YouTube/Vimeo link.</div>'"></video>
       </div>`;
   }
   if (option.type === 'audio') {
     return `
       <div class="monitor">
         <div class="monitor-label">Audio response</div>
-        <audio src="${escapeHtml(option.content)}" controls autoplay></audio>
+        <audio src="${escapeHtml(option.content)}" controls autoplay
+          onerror="this.closest('.monitor').innerHTML = '<div class=\\'monitor-label\\'>Audio response</div><div class=\\'monitor-text\\'>Couldn\\'t load this audio file. Check the URL is a direct link to an audio file.</div>'"></audio>
+      </div>`;
+  }
+  if (option.type === 'image') {
+    return `
+      <div class="monitor">
+        <div class="monitor-label">Image response</div>
+        <img src="${escapeHtml(option.content)}" alt=""
+          onerror="this.closest('.monitor').innerHTML = '<div class=\\'monitor-label\\'>Image response</div><div class=\\'monitor-text\\'>Couldn\\'t load this image. Check the URL is a direct link to an image file.</div>'">
       </div>`;
   }
   return `

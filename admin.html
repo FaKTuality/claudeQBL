@@ -12,12 +12,15 @@
   <div class="wrap">
     <div class="top-chrome">
       <div class="brand"><span class="tally" id="tally"></span> CONSOLE</div>
-      <a class="nav-link" href="index.html">&larr; Home</a>
+      <div style="display:flex; gap:8px;">
+        <a class="nav-link" href="submissions.html">View submissions</a>
+        <a class="nav-link" href="index.html">&larr; Home</a>
+      </div>
     </div>
 
     <p class="eyebrow">Ch.01 — Build</p>
     <h1>Set up questions</h1>
-    <p class="subtitle">Each option can be patched to a video, an audio clip, or a text response. Students see that response the moment they click it.</p>
+    <p class="subtitle">Each option can be patched to a video, an audio clip, an image, or a text response. Students see that response the moment they click it.</p>
 
     <div class="panel">
       <h3 id="form-heading">New question</h3>
@@ -52,6 +55,7 @@
           <label>Response type</label>
           <select data-field="type">
             <option value="text">Text</option>
+            <option value="image">Image</option>
             <option value="video">Video</option>
             <option value="audio">Audio</option>
           </select>

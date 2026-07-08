@@ -320,7 +320,7 @@ button:active { transform: scale(0.97); }
   padding: 18px;
   margin-top: 4px;
 }
-.monitor video, .monitor audio { width: 100%; display: block; border-radius: 6px; }
+.monitor video, .monitor audio, .monitor img, .monitor iframe { width: 100%; display: block; border-radius: 6px; }
 .monitor .monitor-text {
   font-size: 15px;
   line-height: 1.6;

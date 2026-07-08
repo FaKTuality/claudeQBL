@@ -3,7 +3,7 @@
 // Firestore shape:
 //   collection "questions"
 //     doc: { order: number, text: string, options: [
-//       { id, label, type: 'video'|'audio'|'text', content }
+//       { id, label, type: 'video'|'audio'|'image'|'text', content }
 //     ]}
 // ============================================================
 
@@ -24,12 +24,14 @@ let optionRowCount = 0;
 function contentLabelFor(type) {
   if (type === 'video') return 'Video URL';
   if (type === 'audio') return 'Audio URL';
+  if (type === 'image') return 'Image URL';
   return 'Response text';
 }
 
 function contentPlaceholderFor(type) {
-  if (type === 'video') return 'https://... .mp4';
+  if (type === 'video') return 'https://... .mp4 (or a YouTube/Vimeo link)';
   if (type === 'audio') return 'https://... .mp3';
+  if (type === 'image') return 'https://... .jpg / .png / .webp';
   return 'What the student sees when they click this option';
 }
 
