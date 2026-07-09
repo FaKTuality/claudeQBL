@@ -207,7 +207,7 @@ db.collection('questions').orderBy('order').onSnapshot(
     questionListEl.innerHTML = `
       <div class="empty-state">
         <p class="eyebrow">Connection issue</p>
-        <p>Could not read from Firestore. Double check firebase-config.js and that Firestore is enabled for this project.</p>
+        <p>check your internet</p>
       </div>`;
   }
 );
